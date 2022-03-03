@@ -20,3 +20,13 @@ After submitting a guess, the letters will turn gray, green, or yellow.
 Feel free to open an issue for any bugs or feature requests.
 
 To contribute to the code, see [CONTRIBUTING.md](https://github.com/octokatherine/word-master/blob/main/CONTRIBUTING.md)
+
+
+nerdctl run \
+-it \
+--rm \
+-v ${PWD}:/app \
+-v /app/node_modules \
+-p 3001:3000 \
+-e CHOKIDAR_USEPOLLING=true \
+sample:dev

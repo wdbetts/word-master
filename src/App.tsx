@@ -23,6 +23,10 @@ export const difficulty = {
   hard: 'hard',
 }
 
+declare global {
+  interface Window { analytics: any; }
+}
+
 const getRandomAnswer = () => {
   const randomIndex = Math.floor(Math.random() * answers.length)
   return answers[randomIndex].toUpperCase()
@@ -186,6 +190,7 @@ function App() {
   const onEnterPress = () => {
     const word = board[currentRow].join('')
     const [valid, _err] = isValidWord(word)
+    window.analytics.track('Guess', {word: word, valid: valid})
     if (!valid) {
       console.log({ valid, _err })
       setSubmittedInvalidWord(true)
@@ -281,6 +286,8 @@ function App() {
       var streak = currentStreak + 1
       setCurrentStreak(streak)
       setLongestStreak((prev: number) => (streak > prev ? streak : prev))
+
+      window.analytics.track('Won', {streak: streak})
     } else if (gameState === state.playing && currentRow === 6) {
       setGameState(state.lost)
       setCurrentStreak(0)
@@ -376,7 +383,7 @@ function App() {
             <Settings />
           </button>
           <h1 className="flex-1 text-center text-xl xxs:text-2xl sm:text-4xl tracking-wide font-bold font-righteous">
-            WORD MASTER
+            WORDILIO
           </h1>
           <button
             type="button"
